@@ -13,7 +13,7 @@ function App() {
       <Route path="/leaderboard" element={ <Leaderboard /> } />
       <Route path="/matches" element={ <Games /> } />
       <Route path="/login" element={ <Login /> } />
-      <Route exact path="/" element={ <Navigate to="/leaderboar" /> } />
+      <Route exact path="/" element={ <Navigate to="/leaderboard" /> } />
     </Routes>
   );
 }
