@@ -1,21 +1,14 @@
-import { QueryInterface, DataTypes, Model } from 'sequelize';
-
-interface IUserMigration {
-  id: number,
-  username: string,
-  role: string,
-  email: string,
-  password: string,
-}
+import { DataTypes, Model, QueryInterface } from 'sequelize';
+import IUser from '../../Interfaces/User';
 
 export default {
-  up (queryInterface: QueryInterface) {
-    return queryInterface.createTable<Model<IUserMigration>>('users', {
+  up: async (queryInterface: QueryInterface) => {
+    return await queryInterface.createTable<Model<IUser>>("users", {
       id: {
         type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
         allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
       },
       username: {
         type: DataTypes.STRING,
@@ -32,10 +25,10 @@ export default {
       password: {
         type: DataTypes.STRING,
         allowNull: false,
-      },
+      }
     });
   },
-  down(queryInterface: QueryInterface) {
-    return queryInterface.dropTable('users');
-  }
+  down: async (queryInterface:QueryInterface) => {
+    return await queryInterface.dropTable("users");
+  },
 };

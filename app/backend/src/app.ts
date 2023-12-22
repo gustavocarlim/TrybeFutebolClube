@@ -2,17 +2,17 @@ import * as express from 'express';
 import 'express-async-errors';
 
 import errorMiddleware from './middlewares/errorMiddleware';
+import teamRouter from './routes/team.routes';
 
 class App {
   public app: express.Express;
-
   constructor() {
     this.app = express();
-
     this.config();
-
     // Não remover essa rota
     this.app.get('/', (req, res) => res.json({ ok: true }));
+
+    this.app.use('/teams', teamRouter);
 
     // Não remova esse middleware de erro, mas fique a vontade para customizá-lo
     // Mantenha ele sempre como o último middleware a ser chamado
@@ -26,7 +26,6 @@ class App {
       res.header('Access-Control-Allow-Headers', '*');
       next();
     };
-
     this.app.use(express.json());
     this.app.use(accessControl);
   }
@@ -35,8 +34,4 @@ class App {
     this.app.listen(PORT, () => console.log(`Running on port ${PORT}`));
   }
 }
-
-export { App };
-
-// Essa segunda exportação é estratégica, e a execução dos testes de cobertura depende dela
-export const { app } = new App();
+export default App;

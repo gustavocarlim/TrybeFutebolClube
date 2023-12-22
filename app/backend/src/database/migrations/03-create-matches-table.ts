@@ -1,46 +1,55 @@
-import { QueryInterface, DataTypes, Model } from 'sequelize';
-
-interface IMatchMigration {
-  id: number,
-  home_team_id: number,
-  home_team_goals: number,
-  away_team_id: number,
-  away_team_goals: number,
-  in_progress: boolean,
-}
+import { DataTypes, Model, QueryInterface } from 'sequelize';
+import IMatch from '../../Interfaces/Match';
 
 export default {
-  up (queryInterface: QueryInterface) {
-    return queryInterface.createTable<Model<IMatchMigration>>('matches', {
+  up: async (queryInterface: QueryInterface) => {
+    return await queryInterface.createTable<Model<IMatch>>("matches", {
       id: {
         type: DataTypes.INTEGER,
-        primaryKey: true,
+        allowNull: false,
         autoIncrement: true,
-        allowNull: false,
+        primaryKey: true,
       },
-      home_team_id: {
+      homeTeamId: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        references: {
+          model: 'teams',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        field: 'home_team_id'
       },
-      home_team_goals: {
+      homeTeamGoals: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        field: 'home_team_goals'
       },
-      away_team_id: {
+      awayTeamId: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        references: {
+          model: 'teams',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        field: 'away_team_id'
       },
-      away_team_goals: {
+      awayTeamGoals: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        field: 'away_team_goals'
       },
-      in_progress: {
+      inProgress: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-      },
+        field: 'in_progress'
+      }
     });
   },
-  down(queryInterface: QueryInterface) {
-    return queryInterface.dropTable('matches');
-  }
+  down: async (queryInterface:QueryInterface) => {
+    return await queryInterface.dropTable("matches");
+  },
 };
