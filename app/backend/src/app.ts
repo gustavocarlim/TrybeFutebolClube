@@ -3,19 +3,17 @@ import 'express-async-errors';
 
 import errorMiddleware from './middlewares/errorMiddleware';
 import teamRouter from './routes/team.routes';
+import loginRouter from './routes/login.router';
 
 class App {
   public app: express.Express;
+
   constructor() {
     this.app = express();
     this.config();
-    // Não remover essa rota
     this.app.get('/', (req, res) => res.json({ ok: true }));
-
     this.app.use('/teams', teamRouter);
-
-    // Não remova esse middleware de erro, mas fique a vontade para customizá-lo
-    // Mantenha ele sempre como o último middleware a ser chamado
+    this.app.use('/login', loginRouter);
     this.app.use(errorMiddleware);
   }
 
@@ -34,4 +32,8 @@ class App {
     this.app.listen(PORT, () => console.log(`Running on port ${PORT}`));
   }
 }
-export default App;
+
+export { App };
+
+// Essa segunda exportação é estratégica, e a execução dos testes de cobertura depende dela
+export const { app } = new App();
