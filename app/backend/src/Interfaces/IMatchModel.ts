@@ -18,4 +18,6 @@ export interface IMatchModel {
   updateMatchFinish(id: number): Promise<void>,
   updateMatch(id: number, body: UpdateMatchGoals): Promise<void>,
   createMatch(newMatch: MatchCreate): Promise<IMatch>,
+  getAwayMatches(id: number): Promise<IMatch[] | null>;
+  getHomeMatches(id: number): Promise<IMatch[] | null>;
 }
